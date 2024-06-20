@@ -6,6 +6,8 @@ export async function POST(r: Request) {
   const method = req.method;
   const [userOp, entrypoint, chainId] = req.params;
 
+  console.log("Sponsorship Proxy: ", method, req.params);
+
   if (!willSponsor({ chainId: parseInt(chainId), entrypoint, userOp })) {
     console.log("Not a sponsorable operation");
     return Response.json({ error: "Not a sponsorable operation" });

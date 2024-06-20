@@ -30,7 +30,7 @@ export function TransactWithPaymaster() {
     abi: communityPoolABI,
     functionName: "transferCommunityUSDC",
     args: [communityPoolAddress, 10000n, "vote", "vote 1 cent towards contract"],
-    // gasPrice
+    gasPrice
   }), [gasPrice]);
 
   console.log(contractData);
