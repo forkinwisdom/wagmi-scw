@@ -1,8 +1,8 @@
 import { useAccount } from "wagmi";
 import { useCapabilities } from "wagmi/experimental";
 import { useMemo } from "react";
-import { myNFTABI, myNFTAddress } from "@/ABIs/myNFT";
 import { TransactButton } from "./TransactButton";
+import { communityPoolAddress, communityPoolABI } from "../ABIs/communityPool";
 
 export function TransactWithPaymaster() {
   const account = useAccount();
@@ -18,9 +18,7 @@ export function TransactWithPaymaster() {
     ) {
       return {
         paymasterService: {
-          url:
-            process.env.PAYMASTER_PROXY_SERVER_URL ||
-            `${document.location.origin}/api/paymaster`,
+          url: `${document.location.origin}/api/paymaster`,
         },
       };
     }
@@ -34,10 +32,10 @@ export function TransactWithPaymaster() {
           text="Mint"
           contracts={[
             {
-              address: myNFTAddress,
-              abi: myNFTABI,
-              functionName: "safeMint",
-              args: [account.address],
+              address: communityPoolAddress,
+              abi: communityPoolABI,
+              functionName: "transferCommunityUSDC",
+              args: [communityPoolAddress, 10000n, "tag", "concept"],
             },
           ]}
           capabilities={capabilities}

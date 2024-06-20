@@ -6,7 +6,7 @@ import {
   decodeAbiParameters,
   decodeFunctionData,
 } from "viem";
-import { baseSepolia } from "viem/chains";
+import { base } from "viem/chains";
 import { client } from "./config";
 import {
   coinbaseSmartWalletABI,
@@ -15,7 +15,7 @@ import {
   erc1967ProxyImplementationSlot,
   magicSpendAddress,
 } from "./constants";
-import { myNFTABI, myNFTAddress } from "@/ABIs/myNFT";
+import { communityPoolABI, communityPoolAddress } from "../../ABIs/communityPool";
 
 export async function willSponsor({
   chainId,
@@ -23,7 +23,7 @@ export async function willSponsor({
   userOp,
 }: { chainId: number; entrypoint: string; userOp: UserOperation<"v0.6"> }) {
   // check chain id
-  if (chainId !== baseSepolia.id) return false;
+  if (chainId !== base.id) return false;
   // check entrypoint
   // not strictly needed given below check on implementation address, but leaving as example
   if (entrypoint.toLowerCase() !== ENTRYPOINT_ADDRESS_V06.toLowerCase())
@@ -77,15 +77,10 @@ export async function willSponsor({
 
     if (
       calls[callToCheckIndex].target.toLowerCase() !==
-      myNFTAddress.toLowerCase()
-    )
+      communityPoolAddress.toLowerCase()
+    ) {
       return false;
-
-    const innerCalldata = decodeFunctionData({
-      abi: myNFTABI,
-      data: calls[callToCheckIndex].data,
-    });
-    if (innerCalldata.functionName !== "safeMint") return false;
+    }
 
     return true;
   } catch (e) {

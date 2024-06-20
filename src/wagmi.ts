@@ -1,20 +1,20 @@
 import { http, createConfig } from "wagmi";
-import { baseSepolia } from "wagmi/chains";
+import { base } from "wagmi/chains";
 import { coinbaseWallet } from "wagmi/connectors";
 
 export const config = createConfig({
-  chains: [baseSepolia],
+  chains: [base],
   // turn off injected provider discovery
   multiInjectedProviderDiscovery: false,
   connectors: [
     coinbaseWallet({
-      appName: "Wagmi Smart Wallet",
+      appName: "ForkinWisdom",
       preference: "smartWalletOnly",
     }),
   ],
   ssr: true,
   transports: {
-    [baseSepolia.id]: http(),
+    [base.id]: http(),
   },
 });
 
