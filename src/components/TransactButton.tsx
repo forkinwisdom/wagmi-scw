@@ -27,6 +27,7 @@ export function TransactButton<
     mutation: {
       ...mutation,
       onError: (e) => {
+        console.log(e);
         if (
           (e as TransactionExecutionError).cause.name ==
           "UserRejectedRequestError"
@@ -40,6 +41,7 @@ export function TransactButton<
       onSuccess: (id) => {
         setId(id);
         mutation.onSuccess(id);
+        console.log("success", id);
       },
     },
   });

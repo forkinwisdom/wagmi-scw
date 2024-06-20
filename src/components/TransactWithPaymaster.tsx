@@ -1,11 +1,12 @@
-import { useAccount } from "wagmi";
+import { useAccount, useGasPrice } from "wagmi";
 import { useCapabilities } from "wagmi/experimental";
 import { useMemo } from "react";
 import { TransactButton } from "./TransactButton";
 import { communityPoolAddress, communityPoolABI } from "../ABIs/communityPool";
 
 export function TransactWithPaymaster() {
-  const account = useAccount();
+  const account = useAccount()
+  const {data: gasPrice, error} = useGasPrice()
   const { data: availableCapabilities } = useCapabilities({
     account: account.address,
   });
@@ -18,11 +19,21 @@ export function TransactWithPaymaster() {
     ) {
       return {
         paymasterService: {
-          url: 'https://api.developer.coinbase.com/rpc/v1/base/NUHcNopP5aOENwuT1Ix2HWhV6qQM8WZy',
+          url: `${window.location.origin}/api/paymaster`,
         },
       };
     }
   }, [availableCapabilities, account.chainId]);
+  
+  const contractData = useMemo(() => ({
+    address: communityPoolAddress,
+    abi: communityPoolABI,
+    functionName: "transferCommunityUSDC",
+    args: [communityPoolAddress, 10000n, "vote", "vote 1 cent towards contract"],
+    // gasPrice
+  }), [gasPrice]);
+
+  console.log(contractData);
 
   return (
     <div>
@@ -30,14 +41,7 @@ export function TransactWithPaymaster() {
       <div>
         <TransactButton
           text="Mint"
-          contracts={[
-            {
-              address: communityPoolAddress,
-              abi: communityPoolABI,
-              functionName: "transferCommunityUSDC",
-              args: [communityPoolAddress, 10000n, "tag", "concept"],
-            },
-          ]}
+          contracts={[contractData]}
           capabilities={capabilities}
         />
       </div>
