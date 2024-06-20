@@ -18,7 +18,7 @@ export function TransactWithPaymaster() {
     ) {
       return {
         paymasterService: {
-          url: `${document.location.origin}/api/paymaster`,
+          url: 'https://api.developer.coinbase.com/rpc/v1/base/NUHcNopP5aOENwuT1Ix2HWhV6qQM8WZy',
         },
       };
     }
