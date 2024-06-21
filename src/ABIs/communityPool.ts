@@ -10,6 +10,18 @@ export const communityPoolABI = [
         "name": "transferCommunityUSDC",
         "outputs": [],
         "type": "function"
+    },
+    {
+        "constants": false,
+        "inputs": [
+            { "name": "_to", "type": "address" },
+            { "name": "_amount", "type": "uint256" },
+            { "name": "_tag", "type": "string" },
+            { "name": "_concept", "type": "string" }
+        ],
+        "name": "assignCommunityUSDC",
+        "outputs": [],
+        "type": "function"
     }
 ];
 

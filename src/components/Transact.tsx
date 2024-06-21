@@ -1,6 +1,7 @@
 import { useAccount } from "wagmi";
 import { myNFTABI, myNFTAddress } from "@/ABIs/myNFT";
 import { TransactButton } from "./TransactButton";
+import { communityPoolABI, communityPoolAddress } from "@/ABIs/communityPool";
 
 // example batch transaction, making two mint NFT calls
 export function Transact() {
@@ -14,17 +15,16 @@ export function Transact() {
           id="mint-button"
           contracts={[
             {
-              address: myNFTAddress,
-              abi: myNFTABI,
-              functionName: "safeMint",
-              args: [account.address],
-            },
-            {
-              address: myNFTAddress,
-              abi: myNFTABI,
-              functionName: "safeMint",
-              args: [account.address],
-            },
+              address: communityPoolAddress,
+              abi: communityPoolABI,
+              functionName: "transferCommunityUSDC",
+              args: [
+                communityPoolAddress,
+                100000n,
+                "vote",
+                "vote 1 cent towards contract",
+              ],
+            }
           ]}
           text="Mint"
         />
